@@ -43,6 +43,11 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          # Only bootstrap binary files once; do not create a new commit on every CI run.
+          if git ls-files --error-unmatch Rodrigo_Pinheiro_2026_PTBR.docx Rodrigo_Pinheiro_2026_PTBR.pdf Rodrigo_Pinheiro_2026_EN.docx Rodrigo_Pinheiro_2026_EN.pdf > /dev/null 2>&1; then
+            echo 'Validated files are already versioned; no bot commit necessary'
+            exit 0
+          fi
           git add Rodrigo_Pinheiro_2026_PTBR.docx Rodrigo_Pinheiro_2026_PTBR.pdf Rodrigo_Pinheiro_2026_EN.docx Rodrigo_Pinheiro_2026_EN.pdf
           if git diff --cached --quiet; then
             echo 'No changes in generated documents'
