@@ -1,22 +1,23 @@
 # Rodrigo Araújo Maciel Pinheiro
 
-**Junior Back-End Developer | Python · Django · FastAPI · REST APIs**
+**Junior Web Developer | Python · Django · React · TypeScript**
 
-Cabedelo, PB, Brazil · [rm20022101@gmail.com](mailto:rm20022101@gmail.com) · [GitHub](https://github.com/ZaraTakion)
+Cabedelo, PB, Brazil · [rm20022101@gmail.com](mailto:rm20022101@gmail.com)
+[Portfolio](https://portfolio.zaratakion.workers.dev/) · [GitHub](https://github.com/ZaraTakion) · [LinkedIn](https://www.linkedin.com/in/rodrigo-pinheiro-94aa74358/)
 
 ## Summary
-Internet Systems graduate focused on Python back-end development. Academic and personal projects cover REST APIs, authentication and authorization, relational databases, automated testing, and React/Vite integration. Seeking an entry-level software engineering role.
+Developer focused on Python back ends and React interfaces. Personal and academic projects cover REST APIs, authentication, permissions, relational databases and automated testing. Seeking my first junior developer role or well-scoped web development assignments.
 
 ## Skills
-Python, Django, Django REST Framework, FastAPI, Pydantic, JWT, SQL, SQLite, PostgreSQL (CI), Git, GitHub Actions, unittest, OpenAPI, Ruff, Docker Compose; complementary React, Vite, and JavaScript skills.
+Python, Django REST Framework, FastAPI, SQL, SQLite, PostgreSQL, JWT and OpenAPI. React, TypeScript, JavaScript, HTML and CSS. Git, GitHub Actions, automated testing and Docker Compose.
 
-## Projects
-- **[Chamados API](https://github.com/ZaraTakion/chamados-api):** Django REST Framework support-ticket API with JWT, role-based access, auditing, notifications, and CI tests.
-- **[Task Manager API](https://github.com/ZaraTakion/task-manager-backend):** FastAPI CRUD with SQLite persistence, validation and tests; modernization merged via PR #2.
-- **[UPA Academic Portal](https://github.com/ZaraTakion/upa-portal-academico):** Django REST Framework and React/Vite application with academic modules, role-based workflows and tests.
+## Selected projects
+- **[Chamados API](https://github.com/ZaraTakion/chamados-api)** — Django REST Framework support API with JWT, requester/staff permissions, internal comments and an audit trail. Notifications use a transactional outbox, with tests and OpenAPI documentation. Local SQLite demo; CI also uses PostgreSQL.
+- **[Takion Campus](https://github.com/ZaraTakion/takion-campus)** — Evolution of the UPA academic project, pairing React/Vite with a Django REST API. Student, teacher and administrative roles; courses, grades and attendance. Isolated local environment with fictional data and back-end/front-end tests.
+- **[Biya — Parallel Worlds](https://github.com/ZaraTakion/biya-landing)** — React and TypeScript website with PT/EN content, a gallery, responsive navigation and visual modes. Microinteractions and reduced-motion support, respecting artwork credits and usage policies.
 
 ## Education
-Technology Degree in Internet Systems — Centro Universitário UNIESP. **Reported** completion: 2026.
+Internet Systems Technology — Centro Universitário UNIESP, Cabedelo, PB, Brazil. 2026.
 
 ## Languages
-Portuguese native. English (self-reported): reading B2, listening/speaking B1, writing and interaction A2.
+Native Portuguese. Self-assessed English: reading B2; listening and speaking B1; writing and interaction A2.

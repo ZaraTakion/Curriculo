@@ -2,6 +2,8 @@
 """Validate bilingual DOCX/PDF deliverables offline (requires poppler-utils)."""
 from __future__ import annotations
 
+import hashlib
+import json
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
@@ -9,7 +11,7 @@ from pathlib import Path
 from zipfile import BadZipFile, ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
-PROJECTS = ("chamados-api", "task-manager-backend", "upa-portal-academico")
+PROJECTS = ("chamados-api", "takion-campus", "biya-landing")
 NAME = "RODRIGO ARAÚJO MACIEL PINHEIRO"
 
 
@@ -66,6 +68,9 @@ def validate(language: str, source_file: str) -> None:
 
 
 def main() -> int:
+    manifest = json.loads((ROOT / "release-manifest.json").read_text())
+    for name, digest in manifest.items():
+        assert hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == digest, f"Stale release: {name}; rebuild documents"
     failures = 0
     for language, source in (("PTBR", "curriculo_pt.md"), ("EN", "resume_en.md")):
         try:

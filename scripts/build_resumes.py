@@ -2,6 +2,8 @@
 """Build bilingual DOCX and PDF resumes from Markdown sources (no paid services)."""
 from __future__ import annotations
 
+import hashlib
+import json
 import re
 import shutil
 import subprocess
@@ -15,7 +17,7 @@ from docx.shared import Inches, Pt, RGBColor
 from docx.opc.constants import RELATIONSHIP_TYPE as RT
 
 ROOT = Path(__file__).resolve().parents[1]
-BLUE = RGBColor(19, 58, 102)
+BLUE = RGBColor(0, 0, 0)
 ACCENT = RGBColor(14, 113, 139)
 INK = RGBColor(32, 48, 63)
 GREY = RGBColor(83, 98, 109)
@@ -75,7 +77,7 @@ def configure(document) -> None:
 
     for name, size, before, after, color in (
         ("Title", 19.5, 0, 4, BLUE),
-        ("Heading 2", 11.5, 10, 3, BLUE),
+        ("Heading 1", 11.5, 10, 3, BLUE),
     ):
         style = document.styles[name]
         style.font.name = "Liberation Sans"
@@ -102,7 +104,7 @@ def generate(source: Path, target: Path) -> None:
             p.alignment = WD_ALIGN_PARAGRAPH.LEFT
             inline(p, line[2:])
         elif line.startswith("## "):
-            p = doc.add_paragraph(style="Heading 2")
+            p = doc.add_paragraph(style="Heading 1")
             inline(p, line[3:])
         elif line.startswith("- "):
             p = doc.add_paragraph()
@@ -118,20 +120,24 @@ def generate(source: Path, target: Path) -> None:
             if "mailto:" in line:
                 p.paragraph_format.space_after = Pt(7)
                 for r in p.runs:
-                    r.font.size = Pt(8.3)
+                    r.font.size = Pt(10)
                     r.font.color.rgb = GREY
+    for style in doc.styles:
+        for border in list(style.element.iter(qn("w:pBdr"))):
+            border.getparent().remove(border)
     doc.save(target)
 
 
 def main() -> None:
-    if shutil.which("libreoffice") is None:
+    office = shutil.which("soffice") or shutil.which("libreoffice")
+    if office is None:
         raise RuntimeError("LibreOffice Writer required to export PDFs")
     for language, source in (("PTBR", "curriculo_pt.md"), ("EN", "resume_en.md")):
         docx_path = ROOT / f"Rodrigo_Pinheiro_2026_{language}.docx"
         pdf_path = docx_path.with_suffix(".pdf")
         generate(ROOT / "src" / source, docx_path)
         command = [
-            "libreoffice", "-env:UserInstallation=file:///tmp/lo-curriculo-build",
+            office, "-env:UserInstallation=file:///tmp/lo-curriculo-build",
             "--headless", "--convert-to", "pdf:writer_pdf_Export",
             "--outdir", str(ROOT), str(docx_path)
         ]
@@ -139,6 +145,8 @@ def main() -> None:
         if outcome.returncode or not pdf_path.is_file():
             raise RuntimeError(f"Failed to export {docx_path.name}: {outcome.stdout} {outcome.stderr}")
         print(f"[BUILD] {docx_path.name} / {pdf_path.name}")
+    paths = ["src/curriculo_pt.md", "src/resume_en.md", "scripts/build_resumes.py"] + [f"Rodrigo_Pinheiro_2026_{lang}.{ext}" for lang in ("PTBR", "EN") for ext in ("docx", "pdf")]
+    (ROOT / "release-manifest.json").write_text(json.dumps({name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in paths}, indent=2) + "\n")
 
 
 if __name__ == "__main__":
