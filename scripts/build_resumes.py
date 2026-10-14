@@ -58,6 +58,8 @@ def inline(paragraph, value: str) -> None:
 
 def configure(document) -> None:
     sec = document.sections[0]
+    sec.page_width = Inches(8.2677)
+    sec.page_height = Inches(11.6929)
     sec.top_margin = Inches(0.62)
     sec.bottom_margin = Inches(0.60)
     sec.left_margin = Inches(0.73)
@@ -73,8 +75,15 @@ def configure(document) -> None:
     pf.line_spacing = 1.18
     pf.space_after = Pt(4)
 
+    for style in document.styles:
+        if style.type == 1:
+            props = style.element.find(qn("w:pPr"))
+            if props is not None:
+                for border in list(props.findall(qn("w:pBdr"))):
+                    props.remove(border)
+
     for name, size, before, after, color in (
-        ("Title", 19.5, 0, 4, BLUE),
+        ("Title", 19.5, 0, 4, RGBColor(0, 0, 0)),
         ("Heading 2", 11.5, 10, 3, BLUE),
     ):
         style = document.styles[name]
@@ -92,7 +101,7 @@ def generate(source: Path, target: Path) -> None:
     doc = Document()
     configure(doc)
     doc.core_properties.author = "Rodrigo Araújo Maciel Pinheiro"
-    doc.core_properties.title = "Currículo — Back-End Python" if "pt" in source.stem else "Resume — Python Back-End"
+    doc.core_properties.title = "Currículo Desenvolvimento Web" if "pt" in source.stem else "Web Developer Resume"
 
     for line in lines:
         if not line:
@@ -124,14 +133,15 @@ def generate(source: Path, target: Path) -> None:
 
 
 def main() -> None:
-    if shutil.which("libreoffice") is None:
+    office = shutil.which("libreoffice") or shutil.which("soffice")
+    if office is None:
         raise RuntimeError("LibreOffice Writer required to export PDFs")
     for language, source in (("PTBR", "curriculo_pt.md"), ("EN", "resume_en.md")):
         docx_path = ROOT / f"Rodrigo_Pinheiro_2026_{language}.docx"
         pdf_path = docx_path.with_suffix(".pdf")
         generate(ROOT / "src" / source, docx_path)
         command = [
-            "libreoffice", "-env:UserInstallation=file:///tmp/lo-curriculo-build",
+            office, "-env:UserInstallation=file:///tmp/lo-curriculo-build",
             "--headless", "--convert-to", "pdf:writer_pdf_Export",
             "--outdir", str(ROOT), str(docx_path)
         ]

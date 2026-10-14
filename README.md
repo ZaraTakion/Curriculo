@@ -1,6 +1,6 @@
 # Currículo / Résumé — Rodrigo Araújo Maciel Pinheiro
 
-Documentos bilíngues para oportunidades de **Desenvolvedor Back-End Python Júnior**. Os projetos destacados são acadêmicos ou pessoais; não são apresentados como experiência de trabalho contratada.
+Documentos bilíngues para oportunidades de **desenvolvimento web, full-stack júnior e back-end Python**. Os projetos destacados são acadêmicos ou pessoais; não são apresentados como experiência de trabalho contratada.
 
 ## Currículos para baixar
 
@@ -15,9 +15,12 @@ Os documentos são gerados automaticamente com DOCX + LibreOffice e devem ter **
 
 - **[Chamados API](https://github.com/ZaraTakion/chamados-api)** — Django REST Framework, autenticação, autorização, auditoria e notificações.
 - **[Task Manager API](https://github.com/ZaraTakion/task-manager-backend)** — FastAPI, Pydantic, SQLite, testes automatizados.
-- **[UPA Portal Acadêmico](https://github.com/ZaraTakion/upa-portal-academico)** — API Django REST Framework e aplicação React.
+- **[Takion Campus](https://github.com/ZaraTakion/takion-campus)** — portal acadêmico com API Django REST Framework e interface React/Vite.
+- **[Biya — Parallel Worlds](https://github.com/ZaraTakion/biya-landing)** — React/TypeScript, galeria interativa e conteúdo PT/EN.
 
-As melhorias técnicas dos projetos estão integradas às respectivas branches principais, como documentam os [PRs Chamados #33](https://github.com/ZaraTakion/chamados-api/pull/33), [Task Manager #2](https://github.com/ZaraTakion/task-manager-backend/pull/2) e [UPA #19](https://github.com/ZaraTakion/upa-portal-academico/pull/19).
+O antigo UPA foi renomeado para Takion Campus. Os currículos usam o destino atual, sem duplicar o projeto nem apresentar trabalhos pessoais como emprego comercial. Formação e níveis de inglês continuam identificados como informações declaradas pelo candidato.
+
+A atualização de outubro de 2026 foi conferida contra os READMEs e código atuais. A captura do Campus foi obtida em localhost com dados fictícios, e Biya foi executado em um build local. Fontes e limites: [evidências](docs/EVIDENCIAS.md).
 
 ## Gerar e validar os documentos
 

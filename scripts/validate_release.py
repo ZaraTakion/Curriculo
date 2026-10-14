@@ -3,13 +3,15 @@
 from __future__ import annotations
 
 import subprocess
+import re
 import sys
+import unicodedata
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from zipfile import BadZipFile, ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
-PROJECTS = ("chamados-api", "task-manager-backend", "upa-portal-academico")
+PROJECTS = ("takion-campus", "chamados-api", "biya-landing", "task-manager-backend")
 NAME = "RODRIGO ARAÚJO MACIEL PINHEIRO"
 
 
@@ -41,7 +43,8 @@ def validate(language: str, source_file: str) -> None:
         raise ValueError("Invalid DOCX") from exc
 
     namespace = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
-    text = " ".join(item.text or "" for item in root.iter(f"{namespace}t"))
+    text = " ".join("".join(item.text or "" for item in paragraph.iter(f"{namespace}t"))
+                    for paragraph in root.iter(f"{namespace}p"))
     assert NAME in text.upper(), "Full name not extractable in DOCX"
     for slug in PROJECTS:
         assert slug in relationships, f"Missing clickable DOCX link to {slug}"
@@ -57,7 +60,17 @@ def validate(language: str, source_file: str) -> None:
     ), "PDF must not be encrypted"
     extracted = command("pdftotext", str(pdf), "-")
     assert NAME in extracted.upper(), "Full name not extractable from PDF"
+    assert "rm20022101@gmail.com" in extracted, "Contact email must be extractable for ATS"
     assert len(extracted.strip()) >= 650, "Insufficient extractable PDF text"
+    def normalize(value):
+        return " ".join(unicodedata.normalize("NFKC", value).split())
+    for line in raw.splitlines():
+        if not line.strip():
+            continue
+        expected = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", line)
+        expected = re.sub(r"^(?:#+ |\- )", "", expected).replace("**", "")
+        assert normalize(expected) in normalize(text), f"DOCX content differs from Markdown source: {expected}"
+        assert normalize(expected) in normalize(extracted), f"PDF content differs from Markdown source: {expected}"
     links = command("pdfinfo", "-url", str(pdf))
     for slug in PROJECTS:
         assert f"https://github.com/ZaraTakion/{slug}" in links, f"Missing clickable PDF link to {slug}"
