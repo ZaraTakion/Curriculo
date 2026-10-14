@@ -9,7 +9,7 @@ from pathlib import Path
 from zipfile import BadZipFile, ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
-PROJECTS = ("chamados-api", "task-manager-backend", "upa-portal-academico")
+PROJECTS = ("takion-campus", "chamados-api", "biya-landing", "task-manager-backend")
 NAME = "RODRIGO ARAÚJO MACIEL PINHEIRO"
 
 
@@ -57,6 +57,7 @@ def validate(language: str, source_file: str) -> None:
     ), "PDF must not be encrypted"
     extracted = command("pdftotext", str(pdf), "-")
     assert NAME in extracted.upper(), "Full name not extractable from PDF"
+    assert "rm20022101@gmail.com" in extracted, "Contact email must be extractable for ATS"
     assert len(extracted.strip()) >= 650, "Insufficient extractable PDF text"
     links = command("pdfinfo", "-url", str(pdf))
     for slug in PROJECTS:
