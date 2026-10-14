@@ -6,7 +6,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   resumes:
@@ -24,6 +24,8 @@ jobs:
           python -m pip install python-docx==1.2.0
           sudo apt-get update
           sudo apt-get install -y libreoffice-writer poppler-utils fonts-liberation
+      - name: Validate committed sources and document checksums
+        run: python scripts/validate_release.py
       - name: Build PDF and DOCX from Markdown
         run: python scripts/build_resumes.py
       - name: Validate source DOCX and PDFs
@@ -38,20 +40,3 @@ jobs:
             Rodrigo_Pinheiro_2026_EN.docx
             Rodrigo_Pinheiro_2026_EN.pdf
           if-no-files-found: error
-      - name: Commit validated documents to review branch
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          # Only bootstrap binary files once; do not create a new commit on every CI run.
-          if git ls-files --error-unmatch Rodrigo_Pinheiro_2026_PTBR.docx Rodrigo_Pinheiro_2026_PTBR.pdf Rodrigo_Pinheiro_2026_EN.docx Rodrigo_Pinheiro_2026_EN.pdf > /dev/null 2>&1; then
-            echo 'Validated files are already versioned; no bot commit necessary'
-            exit 0
-          fi
-          git add Rodrigo_Pinheiro_2026_PTBR.docx Rodrigo_Pinheiro_2026_PTBR.pdf Rodrigo_Pinheiro_2026_EN.docx Rodrigo_Pinheiro_2026_EN.pdf
-          if git diff --cached --quiet; then
-            echo 'No changes in generated documents'
-            exit 0
-          fi
-          git commit -m 'docs(resume): publish validated bilingual PDF and DOCX documents'
-          git push origin HEAD:${{ github.head_ref }}

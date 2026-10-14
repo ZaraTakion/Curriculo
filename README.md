@@ -34,3 +34,9 @@ python scripts/validate_release.py
 Mais informações: [Critérios de validação](docs/VALIDACAO.md) e [Conferência antes de candidaturas](docs/REVISAO_E_PUBLICACAO.md).
 
 **Privacidade:** este repositório é público. Revise seus dados de contato e formação antes de distribuir. Não adicione CPF, endereço completo, telefone privado ou dados de terceiros.
+
+## Revisão para indicação profissional — outubro de 2026
+
+Fontes PT/EN atualizadas para desenvolvimento web júnior, com Chamados API, Takion Campus e Biya. Os projetos não são apresentados como vínculos de emprego ou contratos. A formação e os níveis de inglês seguem as informações fornecidas pelo candidato; não houve verificação documental de diploma.
+
+Os dois currículos têm uma página, texto pesquisável e links clicáveis, em PDF e DOCX. `release-manifest.json` vincula as fontes e o gerador aos quatro documentos por SHA-256. A CI valida os arquivos versionados antes de regenerar, tem permissão somente de leitura e não faz commits automáticos. Após qualquer edição, execute o gerador e o validador e inclua todos os arquivos atualizados no PR.
