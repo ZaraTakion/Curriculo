@@ -11,7 +11,7 @@ from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
-from docx.shared import Inches, Pt, RGBColor
+from docx.shared import Inches, Pt, RGBColor, Mm
 from docx.opc.constants import RELATIONSHIP_TYPE as RT
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -57,7 +57,12 @@ def inline(paragraph, value: str) -> None:
 
 
 def configure(document) -> None:
+    # The default Word template can carry a blue rule in its Title style.
+    for border in list(document.styles.element.iter(qn("w:pBdr"))):
+        border.getparent().remove(border)
     sec = document.sections[0]
+    sec.page_width = Mm(210)
+    sec.page_height = Mm(297)
     sec.top_margin = Inches(0.62)
     sec.bottom_margin = Inches(0.60)
     sec.left_margin = Inches(0.73)
@@ -67,15 +72,15 @@ def configure(document) -> None:
 
     normal = document.styles["Normal"]
     normal.font.name = "Liberation Sans"
-    normal.font.size = Pt(10.1)
+    normal.font.size = Pt(10.2)
     normal.font.color.rgb = INK
     pf = normal.paragraph_format
-    pf.line_spacing = 1.18
+    pf.line_spacing = 1.12
     pf.space_after = Pt(4)
 
     for name, size, before, after, color in (
-        ("Title", 19.5, 0, 4, BLUE),
-        ("Heading 2", 11.5, 10, 3, BLUE),
+        ("Title", 19.5, 0, 4, RGBColor(0, 0, 0)),
+        ("Heading 2", 11.5, 9, 3, RGBColor(0, 0, 0)),
     ):
         style = document.styles[name]
         style.font.name = "Liberation Sans"
@@ -124,14 +129,16 @@ def generate(source: Path, target: Path) -> None:
 
 
 def main() -> None:
-    if shutil.which("libreoffice") is None:
+    office = shutil.which("libreoffice") or shutil.which("soffice")
+    if office is None:
         raise RuntimeError("LibreOffice Writer required to export PDFs")
     for language, source in (("PTBR", "curriculo_pt.md"), ("EN", "resume_en.md")):
         docx_path = ROOT / f"Rodrigo_Pinheiro_2026_{language}.docx"
         pdf_path = docx_path.with_suffix(".pdf")
         generate(ROOT / "src" / source, docx_path)
+        pdf_path.unlink(missing_ok=True)
         command = [
-            "libreoffice", "-env:UserInstallation=file:///tmp/lo-curriculo-build",
+            office, "-env:UserInstallation=file:///tmp/lo-curriculo-build",
             "--headless", "--convert-to", "pdf:writer_pdf_Export",
             "--outdir", str(ROOT), str(docx_path)
         ]

@@ -9,15 +9,17 @@ Documentos bilíngues para oportunidades de **Desenvolvedor Back-End Python Jún
 | Português (BR) | [PDF](Rodrigo_Pinheiro_2026_PTBR.pdf) | [DOCX](Rodrigo_Pinheiro_2026_PTBR.docx) | [Markdown](src/curriculo_pt.md) |
 | English | [PDF](Rodrigo_Pinheiro_2026_EN.pdf) | [DOCX](Rodrigo_Pinheiro_2026_EN.docx) | [Markdown](src/resume_en.md) |
 
-Os documentos são gerados automaticamente com DOCX + LibreOffice e devem ter **uma página por idioma**, texto selecionável e links clicáveis. O PR de lançamento só será integrado depois que os quatro arquivos estiverem presentes na branch e o validador estiver aprovado.
+Os documentos são gerados automaticamente com DOCX + LibreOffice/soffice e devem ter **uma página A4 por idioma**, texto selecionável e links clicáveis. O PR de lançamento só será integrado depois que os quatro arquivos estiverem presentes na branch e o validador estiver aprovado.
 
 ## Projetos documentados
 
-- **[Chamados API](https://github.com/ZaraTakion/chamados-api)** — Django REST Framework, autenticação, autorização, auditoria e notificações.
-- **[Task Manager API](https://github.com/ZaraTakion/task-manager-backend)** — FastAPI, Pydantic, SQLite, testes automatizados.
-- **[UPA Portal Acadêmico](https://github.com/ZaraTakion/upa-portal-academico)** — API Django REST Framework e aplicação React.
+- **[Chamados API](https://github.com/ZaraTakion/chamados-api)** — Django REST, JWT, autorização, histórico e notificações com outbox transacional. Demonstração local.
+- **[Takion Campus](https://github.com/ZaraTakion/takion-campus)** — evolução do UPA Portal Acadêmico, com Django REST, React e fluxos por perfil.
+- **[Biya Parallel Worlds](https://github.com/ZaraTakion/biya-landing)** — interface React/TypeScript, galeria e conteúdo PT/EN.
 
-As melhorias técnicas dos projetos estão integradas às respectivas branches principais, como documentam os [PRs Chamados #33](https://github.com/ZaraTakion/chamados-api/pull/33), [Task Manager #2](https://github.com/ZaraTakion/task-manager-backend/pull/2) e [UPA #19](https://github.com/ZaraTakion/upa-portal-academico/pull/19).
+Projetos pessoais e acadêmicos, sem alegação de emprego formal, clientes pagos ou métricas de negócio. FastAPI permanece como competência complementar documentada no [Task Manager API](https://github.com/ZaraTakion/task-manager-backend).
+
+Cada currículo inclui contato, [portfólio PT](https://portfolio.zaratakion.workers.dev/), [portfólio EN](https://portfolio.zaratakion.workers.dev/en/), GitHub e LinkedIn. Formação: Sistemas para Internet, UNIESP, concluído em 2026. Idiomas informados: português nativo, inglês básico e espanhol intermediário.
 
 ## Gerar e validar os documentos
 

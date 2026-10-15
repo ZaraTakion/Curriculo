@@ -9,7 +9,7 @@ from pathlib import Path
 from zipfile import BadZipFile, ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
-PROJECTS = ("chamados-api", "task-manager-backend", "upa-portal-academico")
+PROJECTS = ("chamados-api", "takion-campus", "biya-landing")
 NAME = "RODRIGO ARAÚJO MACIEL PINHEIRO"
 
 
@@ -61,6 +61,8 @@ def validate(language: str, source_file: str) -> None:
     links = command("pdfinfo", "-url", str(pdf))
     for slug in PROJECTS:
         assert f"https://github.com/ZaraTakion/{slug}" in links, f"Missing clickable PDF link to {slug}"
+    assert "portfolio.zaratakion.workers.dev" in links, "Missing portfolio link"
+    assert "linkedin.com/in/rodrigo-pinheiro-94aa74358/" in links, "Missing LinkedIn link"
     assert "mailto:" in links, "Missing clickable e-mail link"
     print(f"[PASS] {language}: source + DOCX + one-page searchable linked PDF")
 
