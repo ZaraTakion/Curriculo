@@ -15,3 +15,7 @@ O validador checa, para **cada idioma**, a presença do Markdown, DOCX e PDF; in
 O pipeline GitHub Actions gera e valida os quatro documentos. Em pull requests originados neste mesmo repositório, o job também pode adicionar os binários gerados à branch do PR. Em caso de falha de permissão para escrita, consulte os artefatos do job e não faça merge enquanto os downloads do README estiverem faltando.
 
 Testes de arquivo não substituem a revisão editorial de qualificações, datas e dados pessoais.
+
+## Revisão para indicação de outubro de 2026
+
+Fontes PT/EN atualizadas para Chamados API, Takion Campus e Biya. Gerador fixa A4 e remove bordas herdadas do estilo Title. Validador exige uma página e links clicáveis de projetos, e-mail, portfólio e LinkedIn. Os dois DOCX também devem ser renderizados e conferidos visualmente antes de entrega. Currículos sem imagens, colunas ou tabelas de layout para manter a leitura por ferramentas ATS.
